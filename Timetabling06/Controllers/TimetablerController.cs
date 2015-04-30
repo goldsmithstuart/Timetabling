@@ -11,29 +11,31 @@ namespace Timetabling06.Controllers
     {
         private team06Entities db = new team06Entities();
         // GET: Timetabler
-        public ActionResult Index(String user)
+      
+        public ActionResult Index()
         {
-            if(user==null){
-                return RedirectToAction("Index", "Home", new { error="Please Log In." });
-            }else{
-                HomeModel data = new HomeModel();
-                data.user = db.departments.Where(r => r.code == user).First();
-                data.unseenRequests = db.requests.Where(r=>r.deptCode==user).Count();
-                
-                
-                return View(data);
-            }
-        }
-              /*public ActionResult Index()
-        {
-            ViewBag.roomNumber = new SelectList(db.rooms, "roomNumber", "buildingCode").Distinct();
+            ViewData["message"] = "timetable page";
 
-            ViewBag.park = new SelectList(db.buildings, "code", "park" ).Distinct();
+            ViewBag.roomNumber = new SelectList(db.rooms, "roomNumber", "buildingCode");
 
-            ViewBag.building = new SelectList(db.buildings, "code", "name").Distinct();
+            ViewBag.park = new SelectList(db.buildings, "code", "park");
+
+            ViewBag.building = new SelectList(db.buildings, "code", "name");
 
             return View();
-        }*/
+        }
+
+        public ActionResult HandleForm(string park, string building, string roomNumber, string weeks)
+        {
+            ViewData["park"] = park;
+            ViewData["building"] = building;
+            ViewData["roomNumber"] = roomNumber;
+            ViewData["weeks"] = weeks;
+
+       return View("FormResults");
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {
@@ -41,6 +43,7 @@ namespace Timetabling06.Controllers
             base.Dispose(disposing);
     
         }
-            
-        }
-    }
+            }
+
+
+}
